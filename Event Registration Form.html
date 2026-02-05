@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tech Fest Event Registration</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            width: 400px;
+            margin: auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0 15px 0;
+        }
+
+        input[type="radio"] {
+            width: auto;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Tech Fest Registration Form</h2>
+
+        <form>
+            <!-- Name -->
+            <label>Full Name:</label>
+            <input type="text" placeholder="Enter your name" required>
+
+            <!-- Email -->
+            <label>Email ID:</label>
+            <input type="email" placeholder="Enter your email" required>
+
+            <!-- Phone -->
+            <label>Mobile Number:</label>
+            <input type="tel" placeholder="Enter mobile number" required>
+
+            <!-- College -->
+            <label>College Name:</label>
+            <input type="text" placeholder="Enter college name" required>
+
+            <!-- Branch -->
+            <label>Branch:</label>
+            <select required>
+                <option value="">Select Branch</option>
+                <option>Computer Engineering</option>
+                <option>IT</option>
+                <option>Mechanical</option>
+                <option>Electrical</option>
+                <option>Civil</option>
+            </select>
+
+            <!-- Event -->
+            <label>Select Event:</label>
+            <select required>
+                <option value="">Choose Event</option>
+                <option>Hackathon</option>
+                <option>Coding Contest</option>
+                <option>Robotics</option>
+                <option>Gaming</option>
+                <option>Paper Presentation</option>
+            </select>
+
+            <!-- Gender -->
+            <label>Gender:</label><br>
+            <input type="radio" name="gender"> Male
+            <input type="radio" name="gender"> Female
+            <input type="radio" name="gender"> Other
+            <br><br>
+
+            <!-- Message -->
+            <label>Additional Message:</label>
+            <textarea rows="3" placeholder="Any queries..."></textarea>
+
+            <!-- Submit -->
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+</body>
+</html>

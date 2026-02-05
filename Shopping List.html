@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soham Electronic | Next-Gen Essentials</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --accent: #f43f5e;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Background Elements --- */
+        .bg-blob {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .blob-1 { top: -100px; right: -100px; }
+        .blob-2 { bottom: -100px; left: -100px; background: var(--secondary); }
+
+        /* --- Navigation --- */
+        nav {
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            color: var(--primary);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 30%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideUp 1s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .hero p {
+            max-width: 600px;
+            font-size: 1.2rem;
+            opacity: 0.6;
+            margin-bottom: 2.5rem;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .btn-glow {
+            padding: 1rem 2.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
+            background: #4f46e5;
+        }
+
+        /* --- Products Grid --- */
+        .section-title {
+            padding: 4rem 5% 2rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            height: 1px;
+            flex-grow: 1;
+            background: var(--glass-border);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+            padding: 0 5% 6rem;
+        }
+
+        .product-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 1rem;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .product-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: var(--card-shadow);
+        }
+
+        .image-container {
+            width: 100%;
+            height: 280px;
+            background: #1e293b;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.8s cubic-bezier(0.2, 0, 0.2, 1);
+        }
+
+        .product-card:hover .image-container img {
+            transform: scale(1.1);
+        }
+
+        .badge {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: var(--accent);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        .product-info {
+            padding: 0.5rem;
+        }
+
+        .product-info h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            letter-spacing: -0.2px;
+        }
+
+        .rating {
+            color: #fbbf24;
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            gap: 4px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+
+        .buy-btn {
+            width: 45px;
+            height: 45px;
+            background: var(--light);
+            color: var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .buy-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 4rem 5%;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            opacity: 0.5;
+            font-size: 0.85rem;
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+            opacity: 0.3;
+        }
+
+        /* --- Animations --- */
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 3.5rem; }
+            .products-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+
+    <nav>
+        <div class="logo">SOHAM ELECTRONIC</div>
+        <ul class="nav-links">
+            <li><a href="#">Collections</a></li>
+            <li><a href="#">Technology</a></li>
+            <li><a href="#">Limited Edition</a></li>
+            <li><a href="#">Support</a></li>
+        </ul>
+        <div class="cart-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>ELEVATE THE ORDINARY.</h1>
+        <p>Experience the intersection of high-performance engineering and minimalist aesthetic. Future-proof essentials for the modern pioneer by Soham Electronic.</p>
+        <a href="#shop" class="btn-glow">Explore Collection</a>
+    </header>
+
+    <section id="shop">
+        <h2 class="section-title">The Masterpiece Collection</h2>
+        <div class="products-grid" id="productGrid">
+            <!-- Products injected by JS -->
+        </div>
+    </section>
+
+    <footer>
+        <span class="footer-logo">SOHAM ELECTRONIC</span>
+        <ul class="footer-links">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Newsletter</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+        </ul>
+        <p class="copyright">© 2026 Soham Electronic. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Curated Collection: Top 8 Premium Products
+        const products = [
+            {
+                name: "Aura Pro Phone",
+                price: "₹89,900",
+                tag: "Bestseller",
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1616348436168-de43ad0db179?q=80&w=800&auto=format&fit=crop" 
+            },
+            {
+                name: "Sony XM5 Headphones",
+                price: "₹29,900",
+                tag: "Top Rated",
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?q=80&w=800&auto=format&fit=crop" 
+            },
+            {
+                name: "Apple Watch Ultra",
+                price: "₹85,500",
+                tag: "New Arrival",
+                rating: 4,
+                img: "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                name: "Phantom Pro Laptop",
+                price: "₹1,55,000",
+                tag: "Exclusive",
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                name: "Custom Mech Keyboard",
+                price: "₹12,499",
+                tag: "Limited",
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                name: "Portable Sound Dock",
+                price: "₹18,800",
+                tag: "Trending",
+                rating: 4,
+                img: "https://images.unsplash.com/photo-1608156639585-b3a032ef9689?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                name: "Precision Prime Mouse",
+                price: "₹6,900",
+                tag: "New",
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                name: "Aura Pods Pro",
+                price: "₹24,500",
+                tag: "Popular",
+                rating: 5,
+                img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop"
+            }
+        ];
+
+        const grid = document.getElementById('productGrid');
+
+        products.forEach((p, index) => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.style.transitionDelay = `${index * 0.05}s`;
+            
+            card.innerHTML = `
+                ${p.tag ? `<div class="badge">${p.tag}</div>` : ''}
+                <div class="image-container">
+                    <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop'">
+                </div>
+                <div class="product-info">
+                    <div class="rating">
+                        ${'★'.repeat(p.rating)}${'☆'.repeat(5 - p.rating)}
+                    </div>
+                    <h3>${p.name}</h3>
+                    <div class="card-footer">
+                        <span class="price">${p.price}</span>
+                        <a href="#" class="buy-btn" title="Add to Cart">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </a>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.product-card').forEach(card => observer.observe(card));
+
+        document.querySelector('.btn-glow').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#shop').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+            document.querySelector('.blob-1').style.transform = `translate(${x * 100}px, ${y * 100}px)`;
+            document.querySelector('.blob-2').style.transform = `translate(${-x * 100}px, ${-y * 100}px)`;
+        });
+    </script>
+</body>
+</html>

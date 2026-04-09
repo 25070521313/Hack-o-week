@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Library Catalogue</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #333;
+    }
+
+    .container {
+        max-width: 500px;
+        margin: 50px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        animation: fadeIn 0.6s ease-in-out;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 5px rgba(102,126,234,0.5);
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .btn:hover {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+
+    .add { background: #28a745; }
+    .search { background: #17a2b8; }
+    .display { background: #6f42c1; }
+    .remove { background: #dc3545; }
+
+    .book {
+        background: linear-gradient(135deg, #fdfbfb, #ebedee);
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 12px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        animation: slideUp 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📚 Smart Library</h2>
+
+    <input type="text" id="title" placeholder="Book Title">
+    <input type="text" id="author" placeholder="Author Name">
+
+    <button class="btn add" onclick="addBook()">➕ Add Book</button>
+    <button class="btn search" onclick="searchBook()">🔍 Search Book</button>
+    <button class="btn display" onclick="displayBooks()">📄 Show Books</button>
+
+    <input type="text" id="removeTitle" placeholder="Remove by Title">
+    <button class="btn remove" onclick="removeBook()">❌ Remove Book</button>
+
+    <div id="output"></div>
+</div>
+
+<script>
+    const MAX = 5;
+    let library = [];
+
+    function addBook() {
+        let title = document.getElementById("title").value;
+        let author = document.getElementById("author").value;
+
+        if (library.length >= MAX) {
+            alert("Library is full!");
+            return;
+        }
+
+        if (!title || !author) {
+            alert("Fill all fields!");
+            return;
+        }
+
+        library.push({ title, author });
+        document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        displayBooks();
+    }
+
+    function displayBooks() {
+        let output = document.getElementById("output");
+        output.innerHTML = "";
+
+        if (library.length === 0) {
+            output.innerHTML = "<p>No books available</p>";
+            return;
+        }
+
+        library.forEach((book, index) => {
+            output.innerHTML += `
+                <div class="book">
+                    <b>${index + 1}. ${book.title}</b><br>
+                    <small>${book.author}</small>
+                </div>
+            `;
+        });
+    }
+
+    function searchBook() {
+        let search = prompt("Enter title to search:");
+        let found = library.find(b => b.title.toLowerCase() === search.toLowerCase());
+
+        if (found) {
+            alert(`Found: ${found.title} by ${found.author}`);
+        } else {
+            alert("Not found");
+        }
+    }
+
+    function removeBook() {
+        let removeTitle = document.getElementById("removeTitle").value;
+
+        let index = library.findIndex(b => b.title.toLowerCase() === removeTitle.toLowerCase());
+
+        if (index !== -1) {
+            library.splice(index, 1);
+            displayBooks();
+        } else {
+            alert("Book not found");
+        }
+    }
+</script>
+
+</body>
+</html>
